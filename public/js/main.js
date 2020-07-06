@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io(window.location.hostname);
 
 //vvimp
 
@@ -82,12 +82,14 @@ function createUser(data){
     li.innerHTML = d.username;
     li.classList.add(d.username);
     document.querySelector("#users").appendChild(li);
+    console.log(document.querySelector("#users"));
   });
 }
 
 function roomName(d){
   console.log("asd;lkdas;d");
   document.querySelector("#room-name").innerHTML = d.room;
+  console.log(d.room,document.querySelector("#room-name"));
 }
 
 function deleteUser(d){
