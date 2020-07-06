@@ -13,7 +13,7 @@ mongoose.set("useFindAndModify",false);
 mongoose.set("useCreateIndex",true);
 mongoose.set("useUnifiedTopology",true);
 
-mongoose.connect("mongodb://localhost/chatapp");
+mongoose.connect("mongodb+srv://vishal:"+process.env.PASSWORD+"@cluster0.yqug2.mongodb.net/webchatapp");
 
 
 app.use(express.static(__dirname+"/public"));

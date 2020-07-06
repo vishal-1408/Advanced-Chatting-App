@@ -8,6 +8,9 @@
   },
   "author": "vishal",
   "license": "ISC",
+  "engines":{
+    "node": "12.16.3"
+  },
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
