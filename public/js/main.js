@@ -7,30 +7,15 @@ var d = Qs.parse(location.search,{
 });
 
 var input = document.querySelector("#msg");
-
-
-//important
-socket.emit("room",d);
-
-socket.on("roomusers",function(data){
-  console.log(data);
-  createUsers(data);
-  roomName(data[0]);
-});
-socket.on("roomuser",function(data){
-  console.log("rooooooooooooooooomuserrrrrrrrrrrrrrrrrrr");
-  createUser(data);
-})
-socket.on("deleteuser",function(data){
-  deleteUser(data);
-})
-
-socket.on("message",function(data){
-  createMessage(data);
-  console.log(data);
-});
-
 var form = document.querySelector("form");
+
+input.addEventListener("keydown",function(e){
+  var a =document.querySelector("#msg").value;
+  console.log(a);
+  socket.emit("typing"," is typing....");
+
+});
+
 form.addEventListener("submit",function(param){
   param.preventDefault();
   var input = document.getElementById("msg");
@@ -43,31 +28,63 @@ form.addEventListener("submit",function(param){
 
 });
 
-input.addEventListener("keypress",function(){
-    socket.emit("typing"," is typing....");
 
+
+//Emitting
+socket.emit("room",d);
+
+
+
+
+socket.on("roomusers",function(data){
+  // console.log(data);
+  createUsers(data);
+  roomName(data[0]);
 });
 
+
+socket.on("roomuser",function(data){
+  createUser(data);
+});
+
+socket.on("message",function(data){
+  createMessage(data);
+  // console.log(data);
+});
+
+
 socket.on("chat",function(data){
-  var typing = document.querySelector(".chat-messages .typing");
-  console.log("this is it");
-  console.log(typing);
-   if(typing){
-     console.log(typing);
-     typing.parentNode.removeChild(typing);
-   }
+  // console.log("reciever");
+  if( document.getElementsByClassName("typing")[0]) {
+    var t = document.getElementsByClassName("typing")[0];
+    t.parentNode.removeChild(t);
+  }
+
   createMessage(data);
   document.querySelector(".chat-messages").scrollTop = document.querySelector(".chat-messages").scrollHeight; //imp
 });
 
+
 var c=1;
 socket.on("typing",function(data){
-   if(c==1) {typing(data); c++;}
-   else console.log("still typing");
-})
+  if(c==1){
+     type(data);
+     c++;
+  }
+   // console.log("call back called");
+});
+
+socket.on("deleteuser",function(data){
+  deleteUser(data);
+});
+
+
+
+
+
 
 function createMessage(data){
-  console.log(data);
+  // console.log(data);
   var div = document.createElement("div");
   div.classList.add("message");
   div.innerHTML= `<p class="meta">${data.user} <span>${data.time}</span></p>
@@ -83,7 +100,7 @@ function createUsers(data){
     li.innerHTML = d.username;
     li.classList.add(d.username);
     document.querySelector("#users").appendChild(li);
-    console.log(document.querySelector("#users"));
+    // console.log(document.querySelector("#users"));
   });
 }
 
@@ -92,28 +109,28 @@ function createUser(d){
     li.innerHTML = d.username;
     li.classList.add(d.username);
     document.querySelector("#users").appendChild(li);
-    console.log(document.querySelector("#users"));
+    // console.log(document.querySelector("#users"));
   }
 
 
 function roomName(d){
-  console.log("asd;lkdas;d");
+  // console.log("asd;lkdas;d");
   document.querySelector("#room-name").innerHTML = d.room;
-  console.log(d.room,document.querySelector("#room-name"));
+  // console.log(d.room,document.querySelector("#room-name"));
 }
 
 function deleteUser(d){
   var user = document.querySelector("."+d);
-  console.log(user);
+  // console.log(user);
   user.parentNode.removeChild(user);
 }
 
-function typing(data){
+function type(data){
   var div = document.createElement("div");
   div.innerHTML = data;
   div.classList.add("typing");
   document.querySelector(".chat-messages").appendChild(div);
-  console.log("sadkjlsajkdsa");
+  // console.log("sadkjlsajkdsa");
 
 }
 

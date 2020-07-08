@@ -16,6 +16,7 @@ mongoose.set("useUnifiedTopology",true);
 mongoose.connect("mongodb+srv://vishal:vishal1408@cluster0.yqug2.mongodb.net/webchatapp");
 
 
+
 app.use(express.static(__dirname+"/public"));
 
 
@@ -97,4 +98,4 @@ io.on("connection",function(socket){
       }
     });
   })
-})
+});
