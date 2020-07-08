@@ -13,7 +13,7 @@ mongoose.set("useFindAndModify",false);
 mongoose.set("useCreateIndex",true);
 mongoose.set("useUnifiedTopology",true);
 
-mongoose.connect("mongodb+srv://vishal:"+process.env.PASSWORD+"@cluster0.yqug2.mongodb.net/webchatapp");
+mongoose.connect("mongodb+srv://vishal:vishal1408@cluster0.yqug2.mongodb.net/webchatapp");
 
 
 app.use(express.static(__dirname+"/public"));
@@ -48,10 +48,11 @@ io.on("connection",function(socket){
         User.find({room:data.room},function(err,s){
           if(err) console.log(err);
           else{
+            console.log("checking for room members");
             console.log(s);
             socket.emit("roomusers",s);
             console.log(sol.room);
-            socket.broadcast.to(sol.room).emit("roomusers",[sol]);
+            socket.broadcast.to(sol.room).emit("roomuser",sol);
           }
         });
       }
